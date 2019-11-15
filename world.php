@@ -7,11 +7,15 @@ $dbname = 'world';
 $country = $_GET['country'];
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-$stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
 
+$stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
+
 ?>
+
+<?php if($_GET['context']!="cities"):?>
 
 <table>
 <tr>
@@ -34,14 +38,28 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </tbody>
 </table>
 
-<!--while($row = $result->fetch_assoc()) {-->
-<!--echo "<tr><td>" . $row["name"]. "</td><td>" . $row["head_of_state"] . "</td><td>"-->
-<!--. $row["continent"]. "</td></tr>";-->
-<!--}-->
-<!--echo "</table>";-->
-
-<!--<ul>-->
-<!--<?php foreach ($results as $row): ?>-->
-<!--  <li><?= $row['name'] . ' is ruled by ' . $row['head_of_state']; ?></li>-->
-<!--<?php endforeach; ?>-->
-<!--</ul>-->
+<?php elseif($_GET['context']=="cities"):?>
+    <?php $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM cities JOIN countries ON cities.country_code = countries.code WHERE countries.name LIKE '%$country%'");
+     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+    
+    <table>
+<tr>
+    <thead>
+        <th>Name</th>
+        <th>District</th>
+        <th>Population</th>
+    </thead>
+</tr>
+    <tbody>
+        <?php foreach ($results as $row): ?>
+            <tr>
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['district']; ?></td>
+                <td><?php echo $row['population']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+    
+<?php endif;?>
