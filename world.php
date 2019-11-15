@@ -17,7 +17,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?php if($_GET['context']!="cities"):?>
 
-<table>
+<table class="tableContent">
 <tr>
     <thead>
         <th>Name</th>
@@ -43,7 +43,7 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
      $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
     
-    <table>
+    <table class="tableContent">
 <tr>
     <thead>
         <th>Name</th>
